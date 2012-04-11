@@ -358,6 +358,9 @@ class User implements UserInterface, \Serializable
 
     public function getRoles()
     {
+        //TODO: popraić! Chwilowo do testów admi b@b.pl jest adminem.
+        if ($this->email === 'b@b.pl')
+            return array('ROLE_ADMIN');
         return array('ROLE_USER');
     }
 

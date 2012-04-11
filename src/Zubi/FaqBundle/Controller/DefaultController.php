@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class DefaultController extends Controller
 {
+     protected $user;   
     //kontroler odpowiadający za edycję FAQ
     public function editAction(Request $request, $id) {
         $backLink = $this->generateUrl('ZubiFaqBundle_homepage');
@@ -110,10 +111,13 @@ class DefaultController extends Controller
          $editLinks[$a] = $this->generateUrl('ZubiFaqBundle_edit', array ('id' => $faq->getId() ));
          $a++;                 
      }
+     
+     $this->user = $this->get('security.context')->getToken()->getUser();
+          
      return $this->render('ZubiFaqBundle:Default:index.html.twig', 
                 array('faqs' => $faqs, 
                       'delLinks' => $delLinks,
-                      'editLinks' => $editLinks,
+                      'editLinks' => $editLinks,         
                       'form' => $form->createView()));
     }
     

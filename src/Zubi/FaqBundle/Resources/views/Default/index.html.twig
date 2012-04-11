@@ -20,22 +20,42 @@
 
 <h3>FAQ - Często zadawne pytania</h3>
 <br />
-   <ol> 
-    {% set a = 0 %}
-    {% for faq in faqs %}
-            <li>{{ faq.tresc }}&nbsp;&nbsp;&nbsp;|&nbsp;
-            <a href="{{delLinks[a]}}">usuń</a>&nbsp;|&nbsp;
-            <a href="{{editLinks[a]}}">zmień</a>&nbsp;|&nbsp;
+   <ol>    
+    {% for faq in faqs %}            
+        {% set visible = false %}
+        {% if faq.id_statusu == 3 %}
+            {% if is_granted('ROLE_ADMIN') %}
+                {% set visible = true %}
+            {% endif %}
+        {% elseif faq.id_statusu == 2 %}
+            {% if is_granted('ROLE_USER') %}
+                {% set visible = true %}
+            {% endif %}
+        {% else %}
+            {% set visible = true %}
+        {% endif %}
+        {% if visible == true %}            
+            <li>{{ faq.tresc }}
+            {% if is_granted('ROLE_ADMIN') %}
+            &nbsp;&nbsp;&nbsp;|&nbsp;
+            <a href="{{delLinks[loop.index0]}}">usuń</a>&nbsp;|&nbsp;
+            {% endif %} 
+            {% if is_granted('ROLE_ADMIN') %}
+            <a href="{{editLinks[loop.index0]}}">zmień</a>&nbsp;|&nbsp;
+            {% endif %} 
             <blockquote>{{faq.odpowiedz}}</blockquote>
-            </li>
-            {% set a = a + 1 %}
+            </li>           
+        {% endif %}
     {% endfor %}
    </ol>
+{% if is_granted('ROLE_ADMIN') %}            
 <h4>Możesz dodać nową pozycję w FAQ</h4>
 <form action="{{  path('ZubiFaqBundle_homepage')  }}" method="POST" {{ form_enctype(form) }}>
     {{ form_row(form.tresc) }}
     {{ form_row(form.odpowiedz) }}
     {{ form_row(form.StatusWidocznosci) }}
     <input type="submit" />
-</form>
+</form> 
+{% endif %} 
+<br />
 {% endblock %}

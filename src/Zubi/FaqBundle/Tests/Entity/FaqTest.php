@@ -12,6 +12,25 @@ use Zubi\FaqBundle\Entity\Faq;
 class FaqTest extends WebTestCase {
 
     
+        /**
+        * @var \Doctrine\ORM\EntityManager
+        */
+        private $_em;
+
+        public function setUp()
+        {
+                $kernel = static::createKernel();
+                $kernel->boot();
+                $this->_em = $kernel->getContainer()
+                ->get('doctrine.orm.entity_manager');
+        }
+        
+        public function getFaq($full = false) {
+		if($full) {
+			// TODO: return validated measurement
+		} else
+                    return new Faq();
+	}
         
         public function testFaqId() {
             $faq = $this->getFaq();
@@ -41,12 +60,13 @@ class FaqTest extends WebTestCase {
             $this->assertEquals(2 , $faq->getIdStatusu());
         }
             
-        public function getFaq($full = false) {
-		if($full) {
-			// TODO: return validated measurement
-		} else
-                    return new Faq();
-	}
+        
+        public function testFaqById()
+        {
+            $results = $this->_em->getRepository('ZubiFaqBundle:Faq')
+                ->findOneById("1");
+            $this->assertTrue($results != false);
+        }
 }
 
 ?>
