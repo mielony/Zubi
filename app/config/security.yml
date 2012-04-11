@@ -41,4 +41,5 @@ security:
         - { path: ^/profile/device, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/profile, roles: ROLE_USER }
         - { path: ^/device, roles: ROLE_USER }
+        - { path: ^/faq/edit, roles: ROLE_ADMIN }
         #- { path: ^/_internal, roles: IS_AUTHENTICATED_ANONYMOUSLY, ip: 127.0.0.1 }
