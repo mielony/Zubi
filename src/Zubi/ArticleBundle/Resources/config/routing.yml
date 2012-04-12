@@ -6,3 +6,7 @@ ZubiArticleBundle_showarticle:
     pattern:  /show/{id}
     defaults: { _controller: ZubiArticleBundle:Default:showArticle }
     
+ZubiArticleBundle_add:
+    pattern:  /add/
+    defaults: { _controller: ZubiArticleBundle:Default:add }    
+    

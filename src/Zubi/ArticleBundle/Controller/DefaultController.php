@@ -49,18 +49,15 @@ class DefaultController extends Controller
                 ));
     }
     
-    /*
-    public function addArticleAction()
+    
+    public function addAction()
     {
         $newArticle = new Article();
         $em = $this->getDoctrine()->getEntityManager();    
         $form = $this->createForm(new ArticleForm(), $newArticle);          
-        return $this->render('ZubiArticleBundle:Default:addArticle.html.twig',
-                array (
-                    'articles' => $articles,
+        return $this->render('ZubiArticleBundle:Default:add.html.twig',
+                array (                   
                     'form' => $form->createView()                    
                 ));
-    }
-     * 
-     */
+    }    
 }
