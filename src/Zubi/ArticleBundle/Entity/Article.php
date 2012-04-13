@@ -4,9 +4,8 @@ namespace Zubi\ArticleBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Zubi\UserBundle\Entity\User;
-use Zubi\UserBundle\Entity\Person;
+use Zubi\UserBundle\Entity\Osoba;
 use Zubi\FaqBundle\Entity\Status_widocznosci;
-
 
 use Zubi\ArticleBundle\Controller\DefaultController;
 
@@ -119,7 +118,6 @@ class Article
     {
         $this->groupId = $groupId;
     }
-
     /**
      * Get groupId
      *
@@ -200,44 +198,45 @@ class Article
      *
      * @param Zubi\ArticleBundle\Entity\Status_widocznosci $statusWidocznosci
      */
-    public function setStatusWidocznosci(\Zubi\ArticleBundle\Entity\Status_widocznosci $statusWidocznosci)
+    public function setStatusWidocznosci(\Zubi\FaqBundle\Entity\Status_widocznosci $statusWidocznosci)
     {
         $this->status_widocznosci = $statusWidocznosci;
+        $this->statusId = $this->status_widocznosci->getId();
     }
 
     /**
      * Get status_widocznosci
      *
-     * @return Zubi\ArticleBundle\Entity\Status_widocznosci 
+     * @return Zubi\FaqBundle\Entity\Status_widocznosci 
      */
     public function getStatusWidocznosci()
     {
-        return $this->status_widocznosci;
+        return $this->status_widocznosci;        
     }
     /**
      * @var Zubi\ArticleBundle\Entity\Osoba
      */
-    private $autor;
-
+    private $author;
 
     /**
      * Set autor
      *
-     * @param Zubi\ArticleBundle\Entity\Osoba $autor
+     * @param Zubi\UserBundle\Entity\Osoba $author
      */
-    public function setAutor(\Zubi\ArticleBundle\Entity\Osoba $autor)
+    public function setAuthor(\Zubi\UserBundle\Entity\Osoba $author)
     {
-        $this->autor = $autor;
+        $this->author = $author;
+        $this->authorId = $this->author->getId();
     }
 
     /**
-     * Get autor
+     * Get author
      *
-     * @return Zubi\ArticleBundle\Entity\Person 
+     * @return Zubi\UserBundle\Entity\Osoba
      */
-    public function getAutor()
+    public function getAuthor()
     {
-        return $this->autor;
+        return $this->author;
     }
     /**
      * @var Zubi\ArticleBundle\Entity\User
@@ -264,4 +263,23 @@ class Article
     {
         return $this->creator;
     }
+    
+    private $articleGroup;
+
+
+
+    public function setArticleGroup(\Zubi\ArticleBundle\Entity\ArticleGroup $articleGroup)
+    {
+        $this->articleGroup = $articleGroup;        
+        $this->groupId = $this->articleGroup->getId();
+        echo "<h1>".$this->groupId."</h1>";
+    }
+
+
+    public function getArticleGroup()
+    {
+        return $this->articleGroup;
+    }
+    
+    
 }

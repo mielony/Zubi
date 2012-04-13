@@ -15,7 +15,7 @@ Zubi\ArticleBundle\Entity\Article:
       length: null
     groupId:
       type: integer
-      column: Id_grupy
+      column: groupId
     statusId:
       type: integer     
       column: Id_statusu
@@ -48,7 +48,7 @@ Zubi\ArticleBundle\Entity\Article:
         name: userId
         referencedColumnName: id 
   manyToOne:
-    creator:
+    articleGroup:
       targetEntity: ArticleGroup
       inversedBy: articles
       joinColumn:

@@ -5,6 +5,9 @@ namespace Zubi\ArticleBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Zubi\ArticleBundle\Entity\Article;
 use Zubi\ArticleBundle\Form\Article\ArticleForm;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+
 
 class DefaultController extends Controller
 {
@@ -50,14 +53,38 @@ class DefaultController extends Controller
     }
     
     
-    public function addAction()
-    {
+    public function addAction(Request $request)
+    {        
         $newArticle = new Article();
         $em = $this->getDoctrine()->getEntityManager();    
-        $form = $this->createForm(new ArticleForm(), $newArticle);          
+        $form = $this->createForm(new ArticleForm(), $newArticle);                        
+        //jeśli przesyłane dane są poprawne
+        //dodajemy je do bazy oraz czyścimy formularz.
+        if($request->getMethod() == 'POST') {               
+            $form->bindRequest($request);                     
+            $validator = $this->get('validator');
+            $errors = $validator->validate($newArticle);
+            //echo "<h1>err:".$errors."</h1>";
+            if (count($errors) < 1) {                                                                                                                                  
+                    $newArticle->setUserId($this->get("security.context")->getToken()->getUser()->getId());
+                    $em->persist($newArticle);
+                    $em->flush();
+                    $this->get('session')->setFlash('notice', 'Poprawnie dodałeś artykuł');
+                    //po poprawnym dodaniu danych z formularza, chcemy mieć go pustego.                
+                    $newArticle = new Article();
+                    $form = $this->createForm(new ArticleForm(), $newArticle);                 
+            }     
+            return $this->render('ZubiArticleBundle:Default:add.html.twig',
+                                array (                   
+                                    'form' => $form->createView()                    
+                                )
+                            );              
+        }
         return $this->render('ZubiArticleBundle:Default:add.html.twig',
-                array (                   
-                    'form' => $form->createView()                    
-                ));
+                                array (                   
+                                    'form' => $form->createView()                    
+                                )
+                            );
+     
     }    
 }

@@ -145,6 +145,7 @@ class Faq {
     public function setStatusWidocznosci(\Zubi\FaqBundle\Entity\Status_widocznosci $statusWidocznosci)
     {
         $this->status_widocznosci = $statusWidocznosci;
+        $this->id_statusu = $this->status_widocznosci->getId();
     }
 
     /**

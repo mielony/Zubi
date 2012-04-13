@@ -416,4 +416,9 @@ class User implements UserInterface, \Serializable
     {
         return $this->stations;
     }
+    
+     public function __toString() {
+        return $this->email;
+    }
+    
 }

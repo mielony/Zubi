@@ -22,13 +22,13 @@
 <br />
    <ol>     
     {% for article in articles %}
-            <li>{{ article.title }}&nbsp;&nbsp;&nbsp;|&nbsp;
-            <a href="{{editLinks[loop.index0]}}">Pokaż</a>&nbsp;|&nbsp;            
+            <li>{{ article.title }}&nbsp;&nbsp;&nbsp;&nbsp;
+            <a class="btn btn-primary btn-mini" href="{{editLinks[loop.index0]}}">Czytaj artykuł</a>      
             </li>
     {% endfor %}
    </ol>
 <br />
 {% if is_granted('ROLE_ADMIN') %} 
-<a class="btn btn-primary" href="{{ path('ZubiArticleBundle_add') }}">Dodaj nowy artykuł</a>
-{% endif %  }
+        <a class="btn btn-primary" href="{{ path('ZubiArticleBundle_add') }}">Dodaj nowy artykuł</a>
+{% endif %}
 {% endblock %}

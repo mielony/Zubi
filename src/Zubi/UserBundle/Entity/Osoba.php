@@ -70,4 +70,8 @@ class Osoba
     {
         return $this->nazwisko;
     }
+    
+    public function __toString() {
+        return $this->nazwisko.' '.$this->imie;
+    }
 }

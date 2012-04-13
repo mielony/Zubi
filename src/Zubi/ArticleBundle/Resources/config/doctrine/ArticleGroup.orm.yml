@@ -15,4 +15,4 @@ Zubi\ArticleBundle\Entity\ArticleGroup:
   oneToMany:
     articles:        
       targetEntity: Article
-      mappedBy: id_grupy
+      mappedBy: Id_grupy
