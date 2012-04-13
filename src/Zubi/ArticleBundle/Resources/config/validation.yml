@@ -1,0 +1,8 @@
+Zubi\ArticleBundle\Entity\Article:
+  properties:
+    title:
+      - NotBlank: ~
+    content:
+      - NotBlank: ~
+   
+      
