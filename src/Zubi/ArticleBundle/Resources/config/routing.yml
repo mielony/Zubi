@@ -10,3 +10,10 @@ ZubiArticleBundle_add:
     pattern:  /add/
     defaults: { _controller: ZubiArticleBundle:Default:add }    
     
+ZubiArticleBundle_delete:
+    pattern:  /delete/{id}
+    defaults: { _controller: ZubiArticleBundle:Default:delete }        
+
+ZubiArticleBundle_edit:
+    pattern:  /edit/{id}
+    defaults: { _controller: ZubiArticleBundle:Default:edit }        

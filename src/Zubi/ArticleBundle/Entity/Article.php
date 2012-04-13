@@ -271,8 +271,7 @@ class Article
     public function setArticleGroup(\Zubi\ArticleBundle\Entity\ArticleGroup $articleGroup)
     {
         $this->articleGroup = $articleGroup;        
-        $this->groupId = $this->articleGroup->getId();
-        echo "<h1>".$this->groupId."</h1>";
+        $this->groupId = $this->articleGroup->getId();       
     }
 
 

@@ -1,4 +1,4 @@
-<h4>Możesz dodać nową pozycję w FAQ</h4>
+<h4>Możesz dodać nowy artykuł</h4>
 <form action="{{  path('ZubiArticleBundle_add')  }}" method="POST" {{ form_enctype(form) }}>
     {{ form_row(form.author) }}
     {{ form_row(form.articleGroup) }}
@@ -7,3 +7,4 @@
     {{ form_row(form.StatusWidocznosci) }}
     <input type="submit" /> 
 </form>
+ <a href="{{ url('ZubiArticleBundle_homepage') }}"> Anuluj - powrót do listy artykułów </a>            

@@ -15,17 +15,9 @@ class DefaultController extends Controller
     public function indexAction() {        
         $em = $this->getDoctrine()->getEntityManager();            
         $articles = $em->getRepository('ZubiArticleBundle:Article')->findAll();     
-        $a = 0;        
-        $editLinks[0] = "";
-        foreach ($articles as $article){
-            $editLinks[$a] = $this->generateUrl('ZubiArticleBundle_showarticle',
-                    array('id' => $article->getId()));
-            $a++;
-        }   
         return $this->render('ZubiArticleBundle:Default:index.html.twig',
                 array (
-                    'articles' => $articles,       
-                    'editLinks' => $editLinks
+                    'articles' => $articles                  
                 ));
     }
     
@@ -63,16 +55,13 @@ class DefaultController extends Controller
         if($request->getMethod() == 'POST') {               
             $form->bindRequest($request);                     
             $validator = $this->get('validator');
-            $errors = $validator->validate($newArticle);
-            //echo "<h1>err:".$errors."</h1>";
+            $errors = $validator->validate($newArticle);          
             if (count($errors) < 1) {                                                                                                                                  
                     $newArticle->setUserId($this->get("security.context")->getToken()->getUser()->getId());
                     $em->persist($newArticle);
                     $em->flush();
                     $this->get('session')->setFlash('notice', 'Poprawnie dodałeś artykuł');
-                    //po poprawnym dodaniu danych z formularza, chcemy mieć go pustego.                
-                    $newArticle = new Article();
-                    $form = $this->createForm(new ArticleForm(), $newArticle);                 
+                    return $this->redirect($this->generateUrl('ZubiArticleBundle_homepage'));
             }     
             return $this->render('ZubiArticleBundle:Default:add.html.twig',
                                 array (                   
@@ -87,4 +76,58 @@ class DefaultController extends Controller
                             );
      
     }    
+    
+    public function deleteAction($id) {
+        $em = $this->getDoctrine()->getEntityManager();                                       
+        $delArt = $this->getDoctrine()
+                ->getRepository('ZubiArticleBundle:Article')
+                ->findOneById($id);         
+        if ($delArt) {            
+            $em->remove($delArt);
+            $em->flush();
+            // przekierowanie na index z FAQ
+            $this->get('session')->setFlash('notice', 'Skasowałeś Artykuł pt: "'.$delArt->getTitle().'"');
+            return $this->redirect($this->generateUrl('ZubiArticleBundle_homepage'));
+                        
+            // TODO: Może jakieś pytanie czy na 100% usunąć? Na razie nie ma
+        }
+        else {
+            $this->get('session')->setFlash('errorMsg', 'Nie ma czego kasowac, nie ma artukułu o id: '.$id.'!');
+            return $this->redirect($this->generateUrl('ZubiArticleBundle_homepage'));
+        }          
+    }
+    
+    
+    public function editAction(Request $request, $id) {        
+        $newArt = new Article();
+        $em = $this->getDoctrine()->getEntityManager();    
+        $editedArt = $this->getDoctrine()
+                    ->getRepository('ZubiArticleBundle:Article')
+                    ->findOneById($id);
+        if ($editedArt) {
+            $form = $this->createForm(new ArticleForm(), $editedArt);          
+            if($request->getMethod() != 'POST') {                         
+                $form = $this->createForm(new ArticleForm(), $editedArt);  
+                return $this->render('ZubiArticleBundle:Default:edit.html.twig',
+                        array ('form' => $form->createView(),
+                                'id' => $id                        
+                        ));
+            }
+            else {                    
+                $form->bindRequest($request);         
+                $validator = $this->get('validator');
+                $errors = $validator->validate($editedArt);
+                if (count($errors) < 1) 
+                {                                                                                              
+                    $em->flush();
+                    $this->get('session')->setFlash('notice', 'Poprawnie edytowałeś artykuł');                                        
+                    return $this->redirect($this->generateUrl('ZubiArticleBundle_homepage'));
+                }                     
+            }
+        }
+        else{
+            $this->get('session')->setFlash('errorMsg', 'Nie ma czego edytować, nie ma Artykułu o id: '.$id.'!');
+            return $this->redirect($this->generateUrl('ZubiArticleBundle_homepage'));
+        }                
+      }
 }

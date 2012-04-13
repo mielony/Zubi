@@ -22,8 +22,14 @@
 <br />
    <ol>     
     {% for article in articles %}
-            <li>{{ article.title }}&nbsp;&nbsp;&nbsp;&nbsp;
-            <a class="btn btn-primary btn-mini" href="{{editLinks[loop.index0]}}">Czytaj artykuł</a>      
+            <li>{{ article.title }}&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;
+                <a href="{{ url('ZubiArticleBundle_showarticle', { 'id': article.id }) }}">Czytaj artykuł</a>      
+            {% if is_granted('ROLE_ADMIN') %} 
+                &nbsp;&nbsp;|&nbsp;&nbsp;
+                <a href="{{ url('ZubiArticleBundle_delete', { 'id': article.id }) }}"> Usuń artykuł </a>               
+                &nbsp;&nbsp;|&nbsp;&nbsp;
+                <a href="{{ url('ZubiArticleBundle_edit', { 'id': article.id }) }}"> Zmień artykuł </a>               
+            {% endif %}
             </li>
     {% endfor %}
    </ol>

@@ -44,4 +44,6 @@ security:
         - { path: ^/faq/edit, roles: ROLE_ADMIN }
         - { path: ^/faq/delete, roles: ROLE_ADMIN }
         - { path: ^/article/add, roles: ROLE_ADMIN }
+        - { path: ^/article/delete, roles: ROLE_ADMIN }
+        - { path: ^/article/edit, roles: ROLE_ADMIN }
         #- { path: ^/_internal, roles: IS_AUTHENTICATED_ANONYMOUSLY, ip: 127.0.0.1 }
