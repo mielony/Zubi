@@ -27,7 +27,7 @@
             {% if is_granted('ROLE_ADMIN') %} 
                 &nbsp;&nbsp;|&nbsp;&nbsp;
                 <a href="{{ url('ZubiArticleBundle_delete', { 'id': article.id }) }}"> Usuń artykuł </a>               
-                &nbsp;&nbsp;|&nbsp;&nbsp;
+                &nbsp;&nbsp;|&nbsp;&nbsp; 
                 <a href="{{ url('ZubiArticleBundle_edit', { 'id': article.id }) }}"> Zmień artykuł </a>               
             {% endif %}
             </li>

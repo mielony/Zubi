@@ -50,7 +50,7 @@ class ArticleGroup
      *
      * @param Zubi\ArticleBundle\Entity\Article $faqs
      */
-    public function addFaq(\Zubi\ArticleBundle\Entity\Article $articles)
+    public function addArticles(\Zubi\ArticleBundle\Entity\Article $articles)
     {
         $this->articles[] = $articles;
     }
@@ -60,12 +60,10 @@ class ArticleGroup
      *
      * @return Doctrine\Common\Collections\Collection 
      */
-    public function getFaqs()
+    public function getArticles()
     {
         return $this->articles;
-    }
-        
-    
+    }   
     
     /**
      * Get name
@@ -81,5 +79,6 @@ class ArticleGroup
     {
         return $this->name;
     }
+    
     
 }

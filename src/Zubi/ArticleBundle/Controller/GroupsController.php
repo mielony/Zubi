@@ -4,6 +4,7 @@ namespace Zubi\ArticleBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Zubi\ArticleBundle\Entity\ArticleGroups;
+use Zubi\ArticleBundle\Entity\Article;
 use Zubi\ArticleBundle\Form\Article\ArticleGroupsForm;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,14 +20,28 @@ class GroupsController extends Controller{
     }
     
     public function deleteAction($id) {        
-         return $this->render('ZubiArticleBundle:Groups:delete.html.twig',
-                   array (
-                    'id' => $id)
-                 );
-        
+        $em = $this->getDoctrine()->getEntityManager();                                       
+        $delArtGr = $em->getRepository('ZubiArticleBundle:ArticleGroup')
+                ->findOneById($id);                
+        if ($em->getRepository('ZubiArticleBundle:Article')
+                ->findOneByGroupId($id)) {        
+            $this->get('session')->setFlash('errorMsg', 'Nie możesz usunąc grupy. Posiada artykuły!');
+            return $this->redirect($this->generateUrl('ZubiArticleBundle_groups'));
+        }
+        if ($delArtGr) {            
+            $em->remove($delArtGr);
+            $em->flush();            
+            $this->get('session')->setFlash('notice', 'Skasowałeś grupę dla artykuł pt: "'.$delArtGr->getName().'"');
+            return $this->redirect($this->generateUrl('ZubiArticleBundle_groups'));
+                        
+            // TODO: Może jakieś pytanie czy na 100% usunąć? Na razie nie ma
+        }
+        $this->get('session')->setFlash('errorMsg', 'Nie ma czego kasowac, nie ma artukułu o id: '.$id.'!');
+        return $this->redirect($this->generateUrl('ZubiArticleBundle_groups'));       
     }
     
-    public function editAction($id) {        
+    public function editAction($id) {     
+        
         return $this->render('ZubiArticleBundle:Groups:edit.html.twig',
                    array (
                     'id' => $id)
