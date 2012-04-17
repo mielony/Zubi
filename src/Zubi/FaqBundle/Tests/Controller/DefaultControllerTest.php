@@ -50,8 +50,7 @@ class DefaultControllerTest extends WebTestCase
         // pytanie
          $this->assertTrue($client->getResponse()->getStatusCode() == '302' ,
                 "Response code is: ".$client->getResponse()->getStatusCode().
-                "not 302!!!!");
-        
+                "not 302!!!!");   
         
     //  $this->assertTrue($crawler->filter('html:contains("FAQ")')->count() > 0);   
     }

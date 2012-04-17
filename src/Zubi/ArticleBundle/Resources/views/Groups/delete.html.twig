@@ -1,0 +1,25 @@
+{% extends  '::base.html.twig' %}
+
+{% block sidebartitle %}Artykuły{% endblock %}
+{% block sidebaritems %}
+    <li class="active"><a href="{{ path('ZubiArticleBundle_homepage') }}">Lista artykułów</a></li>
+    <li><a href="{{ path('ZubiIndexBundle_homepage') }}">Strona główna serwisu</a></li>
+{% endblock %}
+
+{% block body %}
+
+{% if app.session.hasFlash('notice') %}
+    <div class="flash-notice" style="color:blue;">
+        {{ app.session.flash('notice') }}
+    </div>
+{% endif %}
+{% if app.session.hasFlash('errorMsg') %}
+    <div class="flash-notice" style="color:red;">
+        {{ app.session.flash('errorMsg') }}
+    </div>
+{% endif %}
+<h3>Usunięcie grup artykułów o id {{ id }}</h3>
+{% if is_granted('ROLE_ADMIN') %} 
+        <a class="btn btn-primary" href="{{ path('ZubiArticleBundle_add') }}">Dodaj nowy artykuł</a>        
+{% endif %}
+{% endblock %}
