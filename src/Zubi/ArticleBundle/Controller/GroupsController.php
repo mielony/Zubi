@@ -12,9 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class GroupsController extends Controller{
     public function indexAction(Request     $request) {      
-         $em = $this->getDoctrine()->getEntityManager();                     
-         
-         
+         $em = $this->getDoctrine()->getEntityManager();                                       
          $newArticleGr = new ArticleGroup();         
          $form = $this->createForm(new ArticleGroupForm(), $newArticleGr);              
          if($request->getMethod() == 'POST') {          
@@ -57,7 +55,40 @@ class GroupsController extends Controller{
         return $this->redirect($this->generateUrl('ZubiArticleBundle_groups'));       
     }
     
-    public function editAction($id) {     
+    public function editAction(Request $request, $id) {     
+        $newArticleGr = new ArticleGroup();   
+        $em = $this->getDoctrine()->getEntityManager();    
+        $editedArticleGr = $this->getDoctrine()
+                    ->getRepository('ZubiArticleBundle:ArticleGroup')
+                    ->findOneById($id);
+        if ($editedArticleGr ) {
+           $form =  $this->createForm(new ArticleGroupForm(), $editedArticleGr);                  
+             if($request->getMethod() != 'POST') {                                        
+                return $this->render('ZubiArticleBundle:Groups:edit.html.twig',
+                        array ('form' => $form->createView(),
+                               'id' => $id
+                               ));
+            }
+            else {                    
+                $form->bindRequest($request);         
+                $validator = $this->get('validator');
+                $errors = $validator->validate($editedArticleGr);
+                if (count($errors) < 1) 
+                {                                                                                                   
+                    $em->flush();
+                    $this->get('session')->setFlash('notice', 'Sukces edycji grupy nowa nazwa: "'.$editedArticleGr->getName().'"');
+                    return $this->redirect($this->generateUrl('ZubiArticleBundle_groups'));
+                }                     
+            }
+        }
+        else{
+            $this->get('session')->setFlash('errorMsg', 'Nie ma czego edytować, nie ma grupy o id: '.$id.'!');
+            return $this->redirect($this->generateUrl('ZubiArticlesBundle_groups'));
+        }                
+        
+        
+        
+        
         
         return $this->render('ZubiArticleBundle:Groups:edit.html.twig',
                    array (
