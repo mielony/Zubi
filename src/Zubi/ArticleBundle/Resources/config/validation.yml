@@ -5,4 +5,8 @@ Zubi\ArticleBundle\Entity\Article:
     content:
       - NotBlank: ~
    
+Zubi\ArticleBundle\Entity\ArticleGroup:
+  properties:
+    name:
+      - NotBlank: ~
       
