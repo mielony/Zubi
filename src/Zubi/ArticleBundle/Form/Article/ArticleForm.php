@@ -29,5 +29,3 @@ class ArticleForm extends AbstractType {
         return 'articleform';
     }
 }
-
-?>

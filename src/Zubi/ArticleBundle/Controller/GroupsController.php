@@ -3,19 +3,37 @@
 namespace Zubi\ArticleBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Zubi\ArticleBundle\Entity\ArticleGroups;
+use Zubi\ArticleBundle\Entity\ArticleGroup;
 use Zubi\ArticleBundle\Entity\Article;
-use Zubi\ArticleBundle\Form\Article\ArticleGroupsForm;
+use Zubi\ArticleBundle\Form\ArticleGroup\ArticleGroupForm;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
 
 class GroupsController extends Controller{
-    public function indexAction() {      
-         $em = $this->getDoctrine()->getEntityManager();            
-         $articleGroups = $em->getRepository('ZubiArticleBundle:ArticleGroup')->findAll();
-         return $this->render('ZubiArticleBundle:Groups:index.html.twig',
-                 array('articleGroups' => $articleGroups)                 
+    public function indexAction(Request     $request) {      
+         $em = $this->getDoctrine()->getEntityManager();                     
+         
+         
+         $newArticleGr = new ArticleGroup();         
+         $form = $this->createForm(new ArticleGroupForm(), $newArticleGr);              
+         if($request->getMethod() == 'POST') {          
+            $form->bindRequest($request);         
+            //$validator = $this->get('validator');
+            //$errors = $validator->validate($newFaq);
+            //jeśli przesyłane dane są poprawne
+            //dodajemy je do bazy oraz czyścimy formularz.
+            //if (count($errors) < 1) {                                                                                                          
+                $em->persist($newArticleGr );
+                $em->flush();
+                $this->get('session')->setFlash('notice', 'Poprawnie dodałeś nową grupę art.');
+                $newArticleGr = new ArticleGroup();         
+                $form = $this->createForm(new ArticleGroupForm(), $newArticleGr);                  
+        }                     
+        $articleGroups = $em->getRepository('ZubiArticleBundle:ArticleGroup')->findAll();
+        return $this->render('ZubiArticleBundle:Groups:index.html.twig',
+                 array('articleGroups' => $articleGroups,
+                       'form' => $form->createView()    )                 
                  );
     }
     

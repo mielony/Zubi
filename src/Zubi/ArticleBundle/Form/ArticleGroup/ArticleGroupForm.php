@@ -1,17 +1,17 @@
 <?php
+namespace Zubi\ArticleBundle\Form\ArticleGroup; 
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilder;
 
-/**
- * Description of ArticleGroupForm
- *
- * @author mielony
- */
-class ArticleGroupForm {
-    //put your code here
+
+class ArticleGroupForm extends AbstractType {
+    
+    public function buildForm(FormBuilder $builder, array $options) {      
+          $builder -> add('name', 'text' );          
+    }
+    
+    public function getName() {
+        return 'articleGroupform';
+    }
 }
-
-?>

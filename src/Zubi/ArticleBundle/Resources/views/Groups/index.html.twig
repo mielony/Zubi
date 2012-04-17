@@ -26,9 +26,11 @@
           |&nbsp;&nbsp;<a href="{{ url('ZubiArticleBundle_group_delete', { 'id': articleGroup.id }) }}">usun </a>
           |&nbsp;&nbsp;<a href="{{ url('ZubiArticleBundle_group_edit', { 'id': articleGroup.id }) }}">edytuj</a>
     </li>
-{% endfor %}   
+{% endfor %}
 </ol>
-{% if is_granted('ROLE_ADMIN') %} 
-        <a class="btn btn-primary" href="{{ path('ZubiArticleBundle_add') }}">Dodaj nowy artykuł</a>        
-{% endif %}
+<h4>Dodaj nową grupę:</h4>
+<form action="{{  url('ZubiArticleBundle_groups') }}" method="POST" {{ form_enctype(form) }}>
+        {{ form_row(form.name) }}        
+    <input type="submit" /> 
+</form>     
 {% endblock %}

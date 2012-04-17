@@ -10,7 +10,7 @@ Zubi\ArticleBundle\Entity\ArticleGroup:
     name:
       type: string
       length: '255'
-      column: Nazwa
+      column: nazwa
   lifecycleCallbacks: {  }
   oneToMany:
     articles:        
