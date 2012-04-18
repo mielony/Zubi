@@ -1,5 +1,28 @@
-<h4>Możesz edytować nowy artykuł</h4>
-<form action="{{  url('ZubiArticleBundle_edit', { 'id': id })  }}" method="POST" {{ form_enctype(form) }}>
+{% extends  '::base.html.twig' %}
+
+{% block sidebartitle %}Edycja Artykułu{% endblock %}
+{% block sidebaritems %}
+    <li class="active"><a href="{{ path('ZubiArticleBundle_homepage') }}">Lista artykułów</a></li>
+    {% if is_granted('ROLE_ADMIN') %} 
+        <li><a href="{{ path('ZubiArticleBundle_groups') }}">Lista grup art.</a></li>
+    {% endif %}  
+    <li><a href="{{ path('ZubiIndexBundle_homepage') }}">Strona główna serwisu</a></li>
+{% endblock %}
+
+{% block body %}
+
+{% if app.session.hasFlash('notice') %}
+    <div class="flash-notice" style="color:blue;">
+        {{ app.session.flash('notice') }}
+    </div>
+{% endif %}
+{% if app.session.hasFlash('errorMsg') %}
+    <div class="flash-notice" style="color:red;">
+        {{ app.session.flash('errorMsg') }}
+    </div>
+{% endif %}
+<h4>Edycja artykułu</h4>
+<form action="{{ url('ZubiArticleBundle_edit', { 'id': id })  }}" method="POST" {{ form_enctype(form) }}>
     {{ form_row(form.author) }}
     {{ form_row(form.articleGroup) }}
     {{ form_row(form.title) }}
@@ -7,4 +30,5 @@
     {{ form_row(form.StatusWidocznosci) }}
     <input type="submit" /> 
 </form>
-<a href="{{ url('ZubiArticleBundle_homepage') }}"> Anuluj - powrót do listy artykułów </a>   
+<a href="{{ url('ZubiArticleBundle_homepage') }}"> Anuluj - powrót do listy artykułów </a>  
+{% endblock %}

@@ -1,5 +1,14 @@
 {% extends  '::base.html.twig' %}
 
+{% block sidebartitle %}Artykuły{% endblock %}
+{% block sidebaritems %}
+    <li class="active"><a href="{{ path('ZubiArticleBundle_homepage') }}">Lista artykułów</a></li>
+    {% if is_granted('ROLE_ADMIN') %} 
+        <li><a href="{{ path('ZubiArticleBundle_groups') }}">Lista grup art.</a></li>
+    {% endif %}  
+    <li><a href="{{ path('ZubiIndexBundle_homepage') }}">Strona główna serwisu</a></li>
+{% endblock %}
+
 {% block body %}
 
 {% if app.session.hasFlash('notice') %}
