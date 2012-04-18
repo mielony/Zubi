@@ -32,8 +32,7 @@ class DefaultControllerTest extends WebTestCase
         $this->assertTrue($client->getResponse()->getStatusCode() == '302' ,
                 "Response code is: ".$client->getResponse()->getStatusCode().
                 "not 302!!!!");          
-    }
-    
+    }    
     
     public function testFaqEdit()
     {
@@ -90,6 +89,8 @@ class DefaultControllerTest extends WebTestCase
                 "Response code is: ".$client->getResponse()->getStatusCode().
                 "not 302!!!!");   
     }
+    
+    
     
     
 }

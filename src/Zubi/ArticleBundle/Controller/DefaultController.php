@@ -86,7 +86,7 @@ class DefaultController extends Controller
             $em->remove($delArt);
             $em->flush();
             // przekierowanie na index z FAQ
-            $this->get('session')->setFlash('notice', 'Skasowałeś Artykuł pt: "'.$delArt->getTitle().'"');
+            $this->get('session')->setFlash('notice', 'Sukses - Skasowałeś Artykuł pt: "'.$delArt->getTitle().'"');
             return $this->redirect($this->generateUrl('ZubiArticleBundle_homepage'));
                         
             // TODO: Może jakieś pytanie czy na 100% usunąć? Na razie nie ma
