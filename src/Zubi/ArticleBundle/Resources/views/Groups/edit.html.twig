@@ -27,6 +27,6 @@
 <br >
 <form action="{{  url('ZubiArticleBundle_group_edit',{ 'id': id }) }}" method="POST" {{ form_enctype(form) }}>
         {{ form_row(form.name) }}        
-    <input type="submit" /> 
+    <input type="submit" name="submit" /> 
 </form> 
 {% endblock %}
