@@ -8,19 +8,19 @@
 {% block body %}
 
 {% if app.session.hasFlash('notice') %}
-    <div class="flash-notice" style="color:blue;">
+    <div class="alert alert-success">
         {{ app.session.flash('notice') }}
     </div>
 {% endif %}
 {% if app.session.hasFlash('errorMsg') %}
-    <div class="flash-notice" style="color:red;">
+    <div class="alert alert-error">
         {{ app.session.flash('errorMsg') }}
     </div>
 {% endif %}
-
 <h3>FAQ - Często zadawne pytania</h3>
 <br />
-   <ol>    
+<div class="well">    
+   <ul class="unstyled">
     {% for faq in faqs %}            
         {% set visible = false %}
         {% if faq.id_statusu == 3 %}
@@ -35,27 +35,41 @@
             {% set visible = true %}
         {% endif %}
         {% if visible == true %}            
-            <li>{{ faq.tresc }}
+        
+            <li><p>{{loop.index}}. {{ faq.tresc }}</p>
+            <blockquote>{{faq.odpowiedz}}</blockquote>            
             {% if is_granted('ROLE_ADMIN') %}
-            &nbsp;&nbsp;&nbsp;|&nbsp;
-            <a href="{{delLinks[loop.index0]}}">usuń</a>&nbsp;|&nbsp;
+                <a class="btn btn-danger" href="{{delLinks[loop.index0]}}"><i class="icon-trash"></i> usuń</a>
+                <a class="btn btn-primary"  href="{{editLinks[loop.index0]}}"><i class="icon-edit"></i> zmień</a>
             {% endif %} 
-            {% if is_granted('ROLE_ADMIN') %}
-            <a href="{{editLinks[loop.index0]}}">zmień</a>&nbsp;|&nbsp;
-            {% endif %} 
-            <blockquote>{{faq.odpowiedz}}</blockquote>
             </li>           
+        
         {% endif %}
     {% endfor %}
-   </ol>
+   </ul>
+</div>
 {% if is_granted('ROLE_ADMIN') %}            
-<h4>Możesz dodać nową pozycję w FAQ</h4>
-<form action="{{  path('ZubiFaqBundle_homepage')  }}" method="POST" {{ form_enctype(form) }}>
-    {{ form_row(form.tresc) }}
-    {{ form_row(form.odpowiedz) }}
-    {{ form_row(form.StatusWidocznosci) }}
-    <input type="submit" />
-</form> 
+<div class="well">    
+    <form class="form-horizontal" action="{{  path('ZubiFaqBundle_homepage')  }}" method="POST" {{ form_enctype(form) }}>
+        <fieldset>
+            <legend>Możesz dodać nową pozycję w FAQ</legend>
+            <div class="control-group">
+                <label class="control-label" for="input01">Treść pytania:</label>
+                <div class="controls">{{ form_widget(form.tresc) }}</div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="input01">Treść opowiedzi:</label>
+                <div class="controls">{{ form_widget(form.odpowiedz) }}</div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="input01">FAQ widoczne dla:</label>
+                <div class="controls">{{ form_widget(form.StatusWidocznosci) }}</div>
+            </div>
+            <div class="controls">
+                <input class="btn btn-primary" type="submit" value="Dodaj nowe FAQ" />
+            </div>
+        </fieldset>
+    </form> 
 {% endif %} 
 <br />
 {% endblock %}
