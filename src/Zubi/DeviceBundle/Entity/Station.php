@@ -255,6 +255,9 @@ class Station
     {
         return $this->measurements;
     }
+
+    
+    
     /**
      * @var integer $userId
      */

@@ -9,13 +9,7 @@ class DefaultControllerTest extends WebTestCase
     public function testIndex()
     {
         $client = static::createClient();
-        $crawler = $client->followRedirects(true);
 
-<<<<<<< HEAD
-        //$crawler = $client->request('GET', '/hello/Fabien');
-
-        //$this->assertTrue($crawler->filter('html:contains("Hello Fabien")')->count() > 0);
-=======
         $crawler = $client->request('GET', '/profile');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
@@ -31,6 +25,5 @@ class DefaultControllerTest extends WebTestCase
 
 		$this->assertTrue($crawler->filter('html:contains("pawel@costam.com")')->count() > 0);
 
->>>>>>> c512917f49a947366925c9a77aba789a8b40c92a
     }
 }

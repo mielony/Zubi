@@ -54,3 +54,4 @@ Zubi\ArticleBundle\Entity\Article:
       joinColumn:
         name: groupId
         referencedColumnName: id 
+        

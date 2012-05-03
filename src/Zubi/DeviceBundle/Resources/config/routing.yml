@@ -11,5 +11,5 @@ ZubiDeviceBundle_addStation:
     defaults: { _controller: ZubiDeviceBundle:Station:addStation }
 
 ZubiDeviceBundle_measurements:
-    pattern: /measurements/{station}
-    defaults: { _controller: ZubiDeviceBundle:Measurement:index, station: false }
+    pattern: /measurements/{stationId}/{pageNum}
+    defaults: { _controller: ZubiDeviceBundle:Measurement:index, stationId: false, pageNum: 0 }

@@ -3,15 +3,27 @@
 namespace Zubi\IndexBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Zubi\IndexBundle\Tests\AbstractAdminTestCase;
 
-class DefaultControllerTest extends WebTestCase
-{
-    public function testIndex()
-    {
+class DefaultControllerTest extends AbstractAdminTestCase {
+    
+    public function testUnloggedIndex() {
+
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/hello/Fabien');
+        $crawler = $client->request('GET', '/');
 
-        $this->assertTrue($crawler->filter('html:contains("Hello Fabien")')->count() > 0);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+    }
+
+    public function testLoggedIndex() {
+        $client = $this->createClientWithAuthentication('secured_area');
+
+        $client = static::createClient();
+
+        $crawler = $client->request('GET', '/');
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
     }
 }

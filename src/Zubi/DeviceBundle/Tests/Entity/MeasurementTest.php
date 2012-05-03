@@ -40,10 +40,10 @@ class MeasurementTest extends WebTestCase
 
 	public function testMeasureTypeId() {
 		$measurement = $this->getMeasurement();
-		$this->assertNull($measurement->getMeasureTypeId());
+		$this->assertNull($measurement->getMeasurementType());
 
-		$measurement->setMeasureTypeId(8);
-		$this->assertEquals(8, $measurement->getMeasureTypeId());
+		$measurement->setMeasurementType(8);
+		$this->assertEquals(8, $measurement->getMeasurementType());
 
 		// TODO: check validators
 	}

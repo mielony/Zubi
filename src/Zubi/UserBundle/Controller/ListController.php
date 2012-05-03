@@ -12,7 +12,6 @@ class ListController extends Controller
     
     public function listAction(Request $request)
     {
-        // $user = new User();
 
         $users = $this->getDoctrine()->getRepository('ZubiUserBundle:User')
         		->findAll();

@@ -3,24 +3,26 @@
 namespace Zubi\IndexBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
-
+use Zubi\DeviceBundle\Entity\Measurement;
+use Zubi\DeviceBundle\Entity\Station;
+use Symfony\Component\Security\Core\SecurityContext;
 class DefaultController extends Controller
 {
     
-    public function indexAction()
-    {
+    public function indexAction() {
 
-    	$session = $this->getRequest()->getSession();
-        if ($session->has('user'))
-        {
-            $user = $session->get('user');
-        	return $this->render('ZubiIndexBundle:Default:index.html.twig', array('user' => $user));
+        $viewVars = array();       
+
+        if($this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            $user = $this->get('security.context')->getToken()->getUser();
+
+            
+
+            $viewVars['user']       = $user;
+            $viewVars['stations']   = $user->getStations();
+        
         }
-        else
-        {
-        	return $this->render('ZubiIndexBundle:Default:index.html.twig');
-        }
+
+        return $this->render('ZubiIndexBundle:Default:index.html.twig', $viewVars);
     }
-    
 }

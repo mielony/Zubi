@@ -3,21 +3,41 @@
 {% block sidebartitle %}Pomiary{% endblock %}
 
 {% block sidebaritems %}
-    <li class="active"><a href="{{ path('ZubiDeviceBundle_homepage') }}">Lista pomiarów</a></li>
+    <li><a href="{{ path('ZubiDeviceBundle_homepage') }}">Lista urządzeń</a></li>
+    <li><a href="{{ path('ZubiDeviceBundle_addStation') }}">Dodaj urządzenie</a></li>
+    <li class="active"><a href="{{ path('ZubiDeviceBundle_measurements') }}">Lista pomiarów</a></li>
 {% endblock %}
 
 {% block body %}
-    <div class="row">
-        <h3>Lista pomiarów</h3>
-    </div>
-    
+
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
     <script type="text/javascript">
         $(function(){
             $('#station').change(function(){
                 window.location.href = "{{ path('ZubiDeviceBundle_measurements') }}/" + $(this).val();
             });
 
+            
         });
+
+        google.load('visualization', '1', {packages: ['annotatedtimeline']});
+            function drawVisualization() {
+              var data = new google.visualization.DataTable();
+              data.addColumn('datetime', 'Data');
+              data.addColumn('number', 'Temperatura');
+              data.addColumn('string', 'title1');
+              data.addColumn('string', 'text1');
+              data.addRows([
+                    {% for mt in currentStation.measurements %}[new Date( "{{ mt.timestamp.format("r") }}"), {{ mt.value }}, null, null],{% endfor %}
+              ]);
+            
+              var annotatedtimeline = new google.visualization.AnnotatedTimeLine(
+                  document.getElementById('visualization'));
+              annotatedtimeline.draw(data, {'displayAnnotations': true});
+            }
+            
+            google.setOnLoadCallback(drawVisualization);
+                
         
     </script>
 
@@ -25,17 +45,53 @@
         Stacja: 
         <select id="station">
             {% for st in stations %}
-                <option value="{{ st.id }}" {% if st.id == currentStation %}selected{% endif %}>{{ st.hash }}</option>
+                <option value="{{ st.id }}" {% if st.id == currentStation.id %}selected{% endif %}>{{ st.hash }}</option>
             {% endfor %}
         </select>
     </div>
+
+    <div class="row">
+        <h3>Wykres</h3>
+    </div>
+
+    <div class="row" style="margin: 20px 0;">
+        <div id="visualization" style="width: 100%; height: 400px; z-index: 500;"></div>
+    </div>
+
+    <div class="row">
+        <h3>Lista pomiarów</h3>
+    </div>
+    
+
+
+    
     
     <div class="row">
+        
+        {% if paginationStats.pages > 1 %}
+        <div class="pagination">
+          <ul>
+            {% if paginationStats.pages > 1 and paginationStats.currentPage != 0 %}
+                <li><a href="{{ path('ZubiDeviceBundle_measurements', {'stationId': currentStation.id, 'pageNum': 0}) }}">←</a></li>
+            {% endif %}
+            {% for i in 1..paginationStats.pages %}
+                <li {% if loop.index == paginationStats.currentPage + 1 %} class="active"{% endif %} >
+                    <a href="{{ path('ZubiDeviceBundle_measurements', {'stationId': currentStation.id, 'pageNum': loop.index-1}) }}">{{ loop.index }}</a>
+                </li>
+            {% endfor %}
+            {% if paginationStats.pages > 1 and paginationStats.currentPage != paginationStats.pages - 1 %}
+                <li><a href="{{ path('ZubiDeviceBundle_measurements', {'stationId': currentStation.id, 'pageNum': paginationStats.pages-1}) }}">→</a></li>
+            {% endif %}
+          </ul>
+        </div>
+        {% endif %}
+
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
                     <td>Rodzaj pomiaru</td>
                     <td>Wartość pomiaru</td>
+                    <td>Data/czas</td>
                 </tr>
             </thead>
             <tbody>
@@ -43,9 +99,29 @@
                     <tr>
                         <td>{{ mt.measurementType.name }}</td>
                         <td>{{ mt.value }}</td>
+                        <td>{{ mt.timestamp.format("Y-m-d H:i:s") }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
+        
+        {% if paginationStats.pages > 1 %}
+        <div class="pagination">
+          <ul>
+            {% if paginationStats.pages > 1 and paginationStats.currentPage != 0 %}
+                <li><a href="{{ path('ZubiDeviceBundle_measurements', {'stationId': currentStation.id, 'pageNum': 0}) }}">←</a></li>
+            {% endif %}
+            {% for i in 1..paginationStats.pages %}
+                <li {% if loop.index == paginationStats.currentPage + 1 %} class="active"{% endif %} >
+                    <a href="{{ path('ZubiDeviceBundle_measurements', {'stationId': currentStation.id, 'pageNum': loop.index-1}) }}">{{ loop.index }}</a>
+                </li>
+            {% endfor %}
+            {% if paginationStats.pages > 1 and paginationStats.currentPage != paginationStats.pages - 1 %}
+                <li><a href="{{ path('ZubiDeviceBundle_measurements', {'stationId': currentStation.id, 'pageNum': paginationStats.pages-1}) }}">→</a></li>
+            {% endif %}
+          </ul>
+        </div>
+        {% endif %}
+
     </div>
 {% endblock %}
