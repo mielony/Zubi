@@ -12,15 +12,30 @@
         {{ app.session.flash('errorMsg') }}
     </div>
 {% endif %}
-
-<h3>FAQ - EDYCJA</h3>
+<div class="well">  
 <br />   
-<form action="" method="POST" {{ form_enctype(form) }}>
-    {{ form_row(form.tresc) }}
-    {{ form_row(form.odpowiedz) }}
-    {{ form_row(form.StatusWidocznosci) }}
-    <input type="submit" />
+<form class="form-horizontal" action="" method="POST" {{ form_enctype(form) }}>
+    <fieldset>
+            <legend>Możesz dokonać zmian w tym FAQ</legend>
+            <div class="control-group">
+                <label class="control-label" for="input01">Treść pytania:</label>
+                <div class="controls">{{ form_widget(form.tresc,  { 'attr': {'class': 'question_field'} }) }}</div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="input01">Treść opowiedzi:</label>
+                <div class="controls">{{ form_widget(form.odpowiedz,  { 'attr': {'class': 'answer_field'} }) }}</div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="input01">FAQ widoczne dla:</label>
+                <div class="controls">{{ form_widget(form.StatusWidocznosci) }}</div>
+            </div>
+            <div class="controls">
+                <input class="btn btn-primary" type="submit" value="Zapisz zmiany" />
+                <a  class="btn btn-danger" href="{{ backLink }}" > Anuluj </a>
+            </div>
+        </fieldset>
 </form>
     <br />
-    <a href="{{ backLink }}" > POWRÓT BEZ ZAPISYWANIA </a>
+
+</div>
 {% endblock %}

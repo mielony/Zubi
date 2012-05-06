@@ -36,12 +36,13 @@
         {% endif %}
         {% if visible == true %}            
         
-            <li><p>{{loop.index}}. {{ faq.tresc }}</p>
+            <li><p><i>Pytanie:</i> {{ faq.tresc }}</p>
             <blockquote>{{faq.odpowiedz}}</blockquote>            
             {% if is_granted('ROLE_ADMIN') %}
                 <a class="btn btn-danger" href="{{delLinks[loop.index0]}}"><i class="icon-trash"></i> usuń</a>
-                <a class="btn btn-primary"  href="{{editLinks[loop.index0]}}"><i class="icon-edit"></i> zmień</a>
+                <a class="btn btn-primary"  href="{{editLinks[loop.index0]}}"><i class="icon-edit"></i> zmień</a>                
             {% endif %} 
+            <hr />
             </li>           
         
         {% endif %}
@@ -55,11 +56,11 @@
             <legend>Możesz dodać nową pozycję w FAQ</legend>
             <div class="control-group">
                 <label class="control-label" for="input01">Treść pytania:</label>
-                <div class="controls">{{ form_widget(form.tresc) }}</div>
+                <div class="controls">{{ form_widget(form.tresc,  { 'attr': {'class': 'question_field'} }) }}</div>
             </div>
             <div class="control-group">
                 <label class="control-label" for="input01">Treść opowiedzi:</label>
-                <div class="controls">{{ form_widget(form.odpowiedz) }}</div>
+                <div class="controls">{{ form_widget(form.odpowiedz,  { 'attr': {'class': 'answer_field'} }) }}</div>
             </div>
             <div class="control-group">
                 <label class="control-label" for="input01">FAQ widoczne dla:</label>
