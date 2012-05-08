@@ -14,19 +14,28 @@
 {% block body %}
 
 {% if app.session.hasFlash('notice') %}
-    <div class="flash-notice" style="color:blue;">
+    <div class="alert alert-success">
         {{ app.session.flash('notice') }}
     </div>
 {% endif %}
 {% if app.session.hasFlash('errorMsg') %}
-    <div class="flash-notice" style="color:red;">
+    <div class="alert alert-error">
         {{ app.session.flash('errorMsg') }}
     </div>
 {% endif %}
-<h3>Edycja grupy artykułów</h3>
-<br >
-<form action="{{  url('ZubiArticleBundle_group_edit',{ 'id': id }) }}" method="POST" {{ form_enctype(form) }}>
-        {{ form_row(form.name) }}        
-    <input type="submit" /> 
-</form> 
+
+<div class="well">    
+    <form class="form-horizontal" action="{{  url('ZubiArticleBundle_group_edit',{ 'id': id }) }}" method="POST" {{ form_enctype(form) }}>
+        <fieldset>
+            <legend>Edycja grupy artykułów</legend>        
+            <div class="control-group">
+                <label class="control-label" for="input01">Nazwa grupy:</label>
+                <div class="controls">{{ form_widget(form.name,  { 'attr': {'class': 'question_field'} }) }} </div>
+            </div>
+            <div class="controls">
+                <input class="btn btn-primary" type="submit" value="Zmień" />
+            </div>
+        </fieldset>
+    </form>     
+</div>
 {% endblock %}

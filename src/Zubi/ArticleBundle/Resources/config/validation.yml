@@ -10,3 +10,10 @@ Zubi\ArticleBundle\Entity\ArticleGroup:
     name:
       - NotBlank: ~
       
+Zubi\UserBundle\Entity\Osoba:      
+  properties:
+    imie:
+      - NotBlank: ~
+    nazwisko:
+      - NotBlank: ~
+      

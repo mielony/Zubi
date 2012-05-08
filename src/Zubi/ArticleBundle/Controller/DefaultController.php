@@ -7,14 +7,16 @@ use Zubi\ArticleBundle\Entity\Article;
 use Zubi\ArticleBundle\Form\Article\ArticleForm;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-
+use Zubi\UserBundle\Entity\Osoba;
 
 class DefaultController extends Controller
 {
     
     public function indexAction() {        
         $em = $this->getDoctrine()->getEntityManager();            
-        $articles = $em->getRepository('ZubiArticleBundle:Article')->findAll();     
+        $articles = $em->createQuery('SELECT ar FROM ZubiArticleBundle:Article ar ORDER BY ar.groupId ASC')
+            ->getResult();
+  //      $articles = $em->getRepository('ZubiArticleBundle:Article')->findBy(array('groupId' => ''));     
         return $this->render('ZubiArticleBundle:Default:index.html.twig',
                 array (
                     'articles' => $articles                  
@@ -29,8 +31,11 @@ class DefaultController extends Controller
             $this->get('session')->setFlash('errorMsg', 'Próbowałeś wyświetlić nieistniejący artykuł');
             return $this->redirect($this->generateUrl('ZubiArticleBundle_homepage'));
         }
-        //jes artykuł więc dalej pobieramy autora, twórcę, kategorię 
+        //jest artykuł więc dalej pobieramy autora, twórcę, kategorię 
         $author = $em->getRepository('ZubiUserBundle:Osoba')->findOneById($article->getAuthorId());
+        if (!$author) {
+            $author = new Osoba();
+        }
         $creator = $em->getRepository('ZubiUserBundle:User')->findOneById($article->getUserId());
         $category = $em->getRepository('ZubiArticleBundle:ArticleGroup')->findOneById($article->getGroupId());
         return $this->render('ZubiArticleBundle:Default:showArticle.html.twig',
@@ -52,7 +57,7 @@ class DefaultController extends Controller
         $form = $this->createForm(new ArticleForm(), $newArticle);                        
         //jeśli przesyłane dane są poprawne
         //dodajemy je do bazy oraz czyścimy formularz.
-        if($request->getMethod() == 'POST') {               
+        if($request->getMethod() == 'POST') {                   
             $form->bindRequest($request);                     
             $validator = $this->get('validator');
             $errors = $validator->validate($newArticle);          

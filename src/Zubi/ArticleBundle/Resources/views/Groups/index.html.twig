@@ -14,28 +14,44 @@
 {% block body %}
 
 {% if app.session.hasFlash('notice') %}
-    <div class="flash-notice" style="color:blue;">
+    <div class="alert alert-success">
         {{ app.session.flash('notice') }}
     </div>
 {% endif %}
 {% if app.session.hasFlash('errorMsg') %}
-    <div class="flash-notice" style="color:red;">
+    <div class="alert alert-error">
         {{ app.session.flash('errorMsg') }}
     </div>
 {% endif %}
 <h3>Zarządzanie grupami artykułów</h3>
 <br />
-<ol>
-{% for articleGroup in articleGroups %}
-    <li> {{ articleGroup.name }}&nbsp;&nbsp;         
-          |&nbsp;&nbsp;<a href="{{ url('ZubiArticleBundle_group_delete', { 'id': articleGroup.id }) }}">usun </a>
-          |&nbsp;&nbsp;<a href="{{ url('ZubiArticleBundle_group_edit', { 'id': articleGroup.id }) }}">edytuj</a>
-    </li>
-{% endfor %}
-</ol>
-<h4>Dodaj nową grupę:</h4>
-<form action="{{  url('ZubiArticleBundle_groups') }}" method="POST" {{ form_enctype(form) }}>
-        {{ form_row(form.name) }}        
-    <input type="submit" /> 
-</form>     
+    <div class="well">   
+        <ol >
+            {% for articleGroup in articleGroups %}
+            <li>                
+                <p style="font-size:14px"><strong>{{ articleGroup.name }}</strong></p>
+                <a class="btn  btn-danger"  href="{{ url('ZubiArticleBundle_group_delete', { 'id': articleGroup.id }) }}"><i class="icon-trash"></i> usuń </a>
+                <a class="btn  btn-primary"  href="{{ url('ZubiArticleBundle_group_edit', { 'id': articleGroup.id }) }}"><i class="icon-edit"></i> zmień</a>
+                <hr />
+            </li>
+            
+            {% endfor %}
+            
+        </ol>
+     </div>
+
+<div class="well">    
+    <form class="form-horizontal" action="{{  url('ZubiArticleBundle_groups') }}" method="POST" {{ form_enctype(form) }}>
+        <fieldset>
+            <legend>Dodaj nową grupę:</legend>        
+            <div class="control-group">
+                <label class="control-label" for="input01">Nazwa grupy:</label>
+                <div class="controls">{{ form_widget(form.name,  { 'attr': {'class': 'question_field'} }) }} </div>
+            </div>
+            <div class="controls">
+                <input class="btn btn-primary" type="submit" value="Dodaj" />
+            </div>
+        </fieldset>
+    </form>     
+</div>
 {% endblock %}

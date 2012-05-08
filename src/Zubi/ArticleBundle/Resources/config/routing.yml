@@ -9,7 +9,7 @@ ZubiArticleBundle_showarticle:
 ZubiArticleBundle_add:
     pattern:  /add/
     defaults: { _controller: ZubiArticleBundle:Default:add }    
-    
+       
 ZubiArticleBundle_delete:
     pattern:  /delete/{id}
     defaults: { _controller: ZubiArticleBundle:Default:delete }        
@@ -26,6 +26,16 @@ ZubiArticleBundle_group_edit:
     pattern:  /groups/edit/{id}
     defaults: { _controller: ZubiArticleBundle:Groups:edit }    
 
+ZubiArticleBundle_group_add: 
+    pattern:  /groups/add/
+    defaults: { _controller: ZubiArticleBundle:Groups:add }    
+
 ZubiArticleBundle_group_delete:
     pattern:  /groups/delete/{id}
     defaults: { _controller: ZubiArticleBundle:Groups:delete }    
+
+ZubiArticleBundle_author_add:
+    pattern:  /author/add/{id}
+    defaults: { _controller: ZubiArticleBundle:Author:add, id: 0 }   
+   
+

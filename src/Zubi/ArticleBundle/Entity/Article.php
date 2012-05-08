@@ -280,5 +280,14 @@ class Article
         return $this->articleGroup;
     }
     
+    public function getArticleGroupName()
+    {
+        return $this->articleGroup->getName();
+    }
+    
+    public function getFirs250Contnet() {
+        return substr($this->content,0,250);
+    }
+    
     
 }

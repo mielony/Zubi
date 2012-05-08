@@ -84,15 +84,31 @@ class GroupsController extends Controller{
         else{
             $this->get('session')->setFlash('errorMsg', 'Nie ma czego edytować, nie ma grupy o id: '.$id.'!');
             return $this->redirect($this->generateUrl('ZubiArticlesBundle_groups'));
-        }                
-        
-        
-        
-        
-        
+        }                                               
         return $this->render('ZubiArticleBundle:Groups:edit.html.twig',
                    array (
                     'id' => $id)
                  );
     }
+    
+    public function addAction(Request $request) {      
+         $em = $this->getDoctrine()->getEntityManager();                                       
+         $newArticleGr = new ArticleGroup();         
+         $form = $this->createForm(new ArticleGroupForm(), $newArticleGr);              
+         if($request->getMethod() == 'POST') {          
+            $form->bindRequest($request);         
+            $validator = $this->get('validator');
+            $errors = $validator->validate($newArticleGr);            
+            if (count($errors) < 1) {                                                                                                          
+                $em->persist($newArticleGr );
+                $em->flush();
+                $this->get('session')->setFlash('notice', 'Poprawnie ..dodałeś nową grupę art.');
+                return  $response = $this->forward('ZubiArticleBundle:Default:add'
+                        );                 
+            }
+         }          
+        return $this->render('ZubiArticleBundle:Groups:add.html.twig',array(
+                           'form' => $form->createView()    )                 
+                 );
+    }     
 }

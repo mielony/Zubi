@@ -65,6 +65,10 @@ class ArticleGroup
         return $this->articles;
     }   
     
+    public function getNumberOfArticles(){
+        
+    }
+    
     /**
      * Get name
      *

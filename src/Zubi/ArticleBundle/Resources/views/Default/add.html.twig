@@ -1,10 +1,62 @@
-<h4>Możesz dodać nowy artykuł</h4>
-<form action="{{  path('ZubiArticleBundle_add')  }}" method="POST" {{ form_enctype(form) }}>
-    {{ form_row(form.author) }}
-    {{ form_row(form.articleGroup) }}
-    {{ form_row(form.title) }}
-    {{ form_row(form.content) }}
-    {{ form_row(form.StatusWidocznosci) }}
-    <input type="submit" name="submit" value="submit" /> 
-</form>
- <a href="{{ url('ZubiArticleBundle_homepage') }}"> Anuluj - powrót do listy artykułów </a>            
+{% extends  '::base.html.twig' %}
+
+{% block sidebartitle %}Dodaj autora{% endblock %}
+{% block sidebaritems %}
+
+    <li ><a href="{{ path('ZubiArticleBundle_homepage') }}">Lista artykułów</a></li>
+    {% if is_granted('ROLE_ADMIN') %} 
+        <li class="active" ><a href="{{ path('ZubiArticleBundle_groups') }}">Lista grup art.</a></li>
+    {% endif %}  
+    <li><a href="{{ path('ZubiIndexBundle_homepage') }}">Strona główna serwisu</a></li>
+
+{% endblock %}
+
+{% block body %}
+
+{% if app.session.hasFlash('notice') %}
+    <div class="flash-notice" style="color:blue;">
+        {{ app.session.flash('notice') }}
+    </div>
+{% endif %}
+{% if app.session.hasFlash('errorMsg') %}
+    <div class="flash-notice" style="color:red;">
+        {{ app.session.flash('errorMsg') }}
+    </div>
+{% endif %}
+
+<form class="form-horizontal" action="{{  path('ZubiArticleBundle_add')  }}"  method="POST" {{ form_enctype(form) }}>
+    <fieldset>
+        <legend>Możesz dodać nowy artykuł</legend>
+        <div class="control-group">
+                <label class="control-label" for="input01">Wybierz autora:</label>
+                <div class="controls">{{ form_widget(form.author) }} 
+                    <a class="btn btn-info" href="{{ path('ZubiArticleBundle_author_add') }}"><i class="icon-plus"></i> dodaj autora</a>
+                </div>    
+        </div>
+        <div class="control-group">
+                <label class="control-label" for="input01">Wybierz temat:</label>
+                <div class="controls">{{ form_widget(form.articleGroup) }}
+                    <a class="btn btn-info" href="{{ path('ZubiArticleBundle_group_add') }}"><i class="icon-plus"></i> dodaj gr. teamtyczną</a>
+                </div>    
+        </div>
+        <div class="control-group">
+                <label class="control-label" for="input01">Tytuł artykułu:</label>
+                <div class="controls">{{ form_widget(form.title,  { 'attr': {'class': 'article_title_field'}}) }}</div>    
+        </div>
+        <div class="control-group">
+                <label class="control-label" for="input01">Treść artykułu:</label>
+                <div class="controls">{{ form_widget(form.content,  { 'attr': {'class': 'article_content_field'}}) }}</div>    
+        </div>
+        <div class="control-group">
+                <label class="control-label" for="input01">Widoczność dla:</label>
+                <div class="controls">{{ form_widget(form.StatusWidocznosci) }}</div>    
+        </div>
+
+        <div class="controls">
+                <input class="btn btn-primary" type="submit"  value="Dodaj artykuł" />
+                <a  class="btn btn-danger" href="{{ url('ZubiArticleBundle_homepage') }}"> Anuluj </a>            
+        </div>  
+    </fieldset>
+</form>     
+{% endblock %}  
+

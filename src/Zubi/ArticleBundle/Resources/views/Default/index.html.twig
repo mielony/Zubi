@@ -12,32 +12,37 @@
 {% block body %}
 
 {% if app.session.hasFlash('notice') %}
-    <div class="flash-notice" style="color:blue;">
+    <div class="alert alert-success">
         {{ app.session.flash('notice') }}
     </div>
 {% endif %}
 {% if app.session.hasFlash('errorMsg') %}
-    <div class="flash-notice" style="color:red;">
+    <div class="alert alert-error">
         {{ app.session.flash('errorMsg') }}
     </div>
 {% endif %}
 <h3>Lista artykułów</h3>
 <br />
-   <ol>     
-    {% for article in articles %}
-            <li>{{ article.title }}&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;
-                <a href="{{ url('ZubiArticleBundle_showarticle', { 'id': article.id }) }}">Czytaj artykuł</a>      
-            {% if is_granted('ROLE_ADMIN') %} 
-                &nbsp;&nbsp;|&nbsp;&nbsp;
-                <a href="{{ url('ZubiArticleBundle_delete', { 'id': article.id }) }}"> Usuń artykuł </a>               
-                &nbsp;&nbsp;|&nbsp;&nbsp; 
-                <a href="{{ url('ZubiArticleBundle_edit', { 'id': article.id }) }}"> Zmień artykuł </a>               
-            {% endif %}
-            </li>
-    {% endfor %}
-   </ol>
-<br />
+    <div class="well">   
+        <ul class="unstyled">    
+            {% for article in articles %}
+
+                    <li><p>[{{ article.ArticleGroupName }}] <strong>{{ article.title }}</strong></p>
+                    <blockquote>
+                        {{ article.Firs250Contnet }}
+                        <a class="btn" href="{{ url('ZubiArticleBundle_showarticle', { 'id': article.id }) }}">więcej...</a>      
+                    </blockquote>                                                                
+                    {% if is_granted('ROLE_ADMIN') %} 
+                        <a class="btn btn-danger"  href="{{ url('ZubiArticleBundle_delete', { 'id': article.id }) }}"><i class="icon-trash"></i> usuń </a>               
+                        <a class="btn btn-primary" href="{{ url('ZubiArticleBundle_edit', { 'id': article.id }) }}"><i class="icon-edit"></i> zmień</a>               
+                    {% endif %}
+                    </li>
+                    <hr />
+            {% endfor %}
+        </ul>
 {% if is_granted('ROLE_ADMIN') %} 
         <a class="btn btn-primary" href="{{ path('ZubiArticleBundle_add') }}">Dodaj nowy artykuł</a>
 {% endif %}
+    </div>
+
 {% endblock %}

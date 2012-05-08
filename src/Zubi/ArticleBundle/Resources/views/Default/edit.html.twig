@@ -22,13 +22,38 @@
     </div>
 {% endif %}
 <h4>Edycja artykułu</h4>
-<form action="{{ url('ZubiArticleBundle_edit', { 'id': id })  }}" method="POST" {{ form_enctype(form) }}>
-    {{ form_row(form.author) }}
-    {{ form_row(form.articleGroup) }}
-    {{ form_row(form.title) }}
-    {{ form_row(form.content) }}
-    {{ form_row(form.StatusWidocznosci) }}
-    <input type="submit" /> 
-</form>
-<a href="{{ url('ZubiArticleBundle_homepage') }}"> Anuluj - powrót do listy artykułów </a>  
+<form class="form-horizontal" action="{{ url('ZubiArticleBundle_edit', { 'id': id })  }}"   method="POST" {{ form_enctype(form) }}>
+    <fieldset>
+        <legend>Możesz dodać nowy artykuł</legend>
+        <div class="control-group">
+                <label class="control-label" for="input01">Wybierz autora:</label>
+                <div class="controls">{{ form_widget(form.author) }} 
+                    <a class="btn btn-info" href="{{ path('ZubiArticleBundle_author_add', { 'id': id } ) }}"><i class="icon-plus"></i> dodaj autora</a>
+                </div>    
+        </div>
+        <div class="control-group">
+                <label class="control-label" for="input01">Wybierz temat:</label>
+                <div class="controls">{{ form_widget(form.articleGroup) }}
+                    <a class="btn btn-info" href="{{ path('ZubiArticleBundle_group_add') }}"><i class="icon-plus"></i> dodaj gr. teamtyczną</a>
+                </div>    
+        </div>
+        <div class="control-group">
+                <label class="control-label" for="input01">Tytuł artykułu:</label>
+                <div class="controls">{{ form_widget(form.title,  { 'attr': {'class': 'article_title_field'}}) }}</div>    
+        </div>
+        <div class="control-group">
+                <label class="control-label" for="input01">Treść artykułu:</label>
+                <div class="controls">{{ form_widget(form.content,  { 'attr': {'class': 'article_content_field'}}) }}</div>    
+        </div>
+        <div class="control-group">
+                <label class="control-label" for="input01">Widoczność dla:</label>
+                <div class="controls">{{ form_widget(form.StatusWidocznosci) }}</div>    
+        </div>
+
+        <div class="controls">
+                <input class="btn btn-primary" type="submit"  value="Zapisz zmiany" />
+                <a  class="btn btn-danger" href="{{ url('ZubiArticleBundle_homepage') }}"> Anuluj </a>            
+        </div>  
+    </fieldset>
+</form>    
 {% endblock %}

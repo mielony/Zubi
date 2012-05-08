@@ -16,9 +16,8 @@ class ArticleForm extends AbstractType {
                                         'class' => 'Zubi\ArticleBundle\Entity\ArticleGroup' )
                         );     
       
-          $builder -> add('author', 'entity', array(
-                                        'class' => 'Zubi\UserBundle\Entity\Osoba')
-                        );
+          $builder -> add('author', 'entity', array('class' => 'Zubi\UserBundle\Entity\Osoba'));
+                        
           $builder -> add('StatusWidocznosci', 'entity', array(
                         'class' => 'Zubi\FaqBundle\Entity\Status_widocznosci'
                         //,'property' => 'nazwa'
