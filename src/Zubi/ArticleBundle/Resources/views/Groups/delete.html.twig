@@ -1,13 +1,15 @@
+{# podpięcie się pod bazowy szablon strony #}
 {% extends  '::base.html.twig' %}
-
+{# zmiana sidebartitle #}
 {% block sidebartitle %}Artykuły{% endblock %}
+{# lewe menu #}
 {% block sidebaritems %}
     <li class="active"><a href="{{ path('ZubiArticleBundle_homepage') }}">Lista artykułów</a></li>
     <li><a href="{{ path('ZubiIndexBundle_homepage') }}">Strona główna serwisu</a></li>
 {% endblock %}
-
+{# terść strony #}
 {% block body %}
-
+{# pole na komuniaty o sukcesie lub błędach #}
 {% if app.session.hasFlash('notice') %}
     <div class="flash-notice" style="color:blue;">
         {{ app.session.flash('notice') }}

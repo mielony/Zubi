@@ -1,18 +1,19 @@
+{# podpięcie się pod bazowy szablon strony #}
 {% extends  '::base.html.twig' %}
-
+{# zmiana sidebartitle #}
 {% block sidebartitle %}Grupy artykułów{% endblock %}
+{# lewe menu #}
 {% block sidebaritems %}
-
     <li ><a href="{{ path('ZubiArticleBundle_homepage') }}">Lista artykułów</a></li>
+    {# ten odnośnik dostępny tylko dla ADMINA #}
     {% if is_granted('ROLE_ADMIN') %} 
         <li class="active" ><a href="{{ path('ZubiArticleBundle_groups') }}">Lista grup art.</a></li>
     {% endif %}  
     <li><a href="{{ path('ZubiIndexBundle_homepage') }}">Strona główna serwisu</a></li>
-
 {% endblock %}
-
+{# terść strony #}
 {% block body %}
-
+{# pole na komuniaty o sukcesie lub błędach #}
 {% if app.session.hasFlash('notice') %}
     <div class="alert alert-success">
         {{ app.session.flash('notice') }}
@@ -23,6 +24,7 @@
         {{ app.session.flash('errorMsg') }}
     </div>
 {% endif %}
+{# wyświetlenie listy grup #}
 <h3>Zarządzanie grupami artykułów</h3>
 <br />
     <div class="well">   
@@ -39,7 +41,7 @@
             
         </ol>
      </div>
-
+{# wyświetlenie formularza do dodawnia grup #}
 <div class="well">    
     <form class="form-horizontal" action="{{  url('ZubiArticleBundle_groups') }}" method="POST" {{ form_enctype(form) }}>
         <fieldset>

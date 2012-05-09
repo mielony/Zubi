@@ -3,11 +3,16 @@
 namespace Zubi\ArticleBundle\Tests\Entity;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-
 use Symfony\Component\Validator\ValidatorFactory;
-
 use Zubi\ArticleBundle\Entity\Article;
 
+/* 
+ * Klasa sprawdzająca poprawność stworzonej klasy mapującej 
+ * tabelkę bazy danych.
+ * 
+ * Sprawdza porpawność metod GET i SET poszczególnych pól tabelki
+ * 
+ */
 class ArticleTest extends WebTestCase {          
         public function testArticleId() {
             $article= $this->getArticle();

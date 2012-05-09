@@ -1,16 +1,19 @@
+{# podpięcie się pod bazowy szablon strony #}
 {% extends  '::base.html.twig' %}
-
+{# zmiana sidebartitle #}
 {% block sidebartitle %}Artykuły{% endblock %}
+{# lewe menu #}
 {% block sidebaritems %}
-    <li class="active"><a href="{{ path('ZubiArticleBundle_homepage') }}">Lista artykułów</a></li>
+        <li class="active"><a href="{{ path('ZubiArticleBundle_homepage') }}">Lista artykułów</a></li>
+    {# ten odnośnik dostępny tylko dla ADMINA #}
     {% if is_granted('ROLE_ADMIN') %} 
         <li><a href="{{ path('ZubiArticleBundle_groups') }}">Lista grup art.</a></li>
     {% endif %}  
     <li><a href="{{ path('ZubiIndexBundle_homepage') }}">Strona główna serwisu</a></li>
 {% endblock %}
-
+{# terść strony #}
 {% block body %}
-
+{# pole na komuniaty o sukcesie lub błędach #}
 {% if app.session.hasFlash('notice') %}
     <div class="alert alert-success">
         {{ app.session.flash('notice') }}
@@ -21,12 +24,12 @@
         {{ app.session.flash('errorMsg') }}
     </div>
 {% endif %}
+{# listy artykułów #}
 <h3>Lista artykułów</h3>
 <br />
     <div class="well">   
         <ul class="unstyled">    
             {% for article in articles %}
-
                     <li><p>[{{ article.ArticleGroupName }}] <strong>{{ article.title }}</strong></p>
                     <blockquote>
                         {{ article.Firs250Contnet }}
@@ -40,9 +43,9 @@
                     <hr />
             {% endfor %}
         </ul>
+{# wyśietlenie odnośnika do dodawnia  artykułu jeśli zalogowany jest ADMIN #}
 {% if is_granted('ROLE_ADMIN') %} 
         <a class="btn btn-primary" href="{{ path('ZubiArticleBundle_add') }}">Dodaj nowy artykuł</a>
 {% endif %}
     </div>
-
 {% endblock %}

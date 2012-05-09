@@ -1,7 +1,8 @@
+{# podpięcie się pod bazowy szablon strony #}
 {% extends  '::base.html.twig' %}
-
+{# terść strony #}
 {% block body %}
-
+{# pole na komuniaty o sukcesie lub błędach #}
 {% if app.session.hasFlash('notice') %}
     <div class="flash-notice" style="color:blue;">
         {{ app.session.flash('notice') }}
@@ -12,6 +13,7 @@
         {{ app.session.flash('errorMsg') }}
     </div>
 {% endif %}
+{# na stronie mamy dostepny formularz do edycji FAQ #}
 <div class="well">  
 <br />   
 <form class="form-horizontal" action="" method="POST" {{ form_enctype(form) }}>

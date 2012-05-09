@@ -1,12 +1,15 @@
+{# podpięcie się pod bazowy szablon strony #}
 {% extends  '::base.html.twig' %}
+{# zmiana sidebartitle #}
 {% block sidebartitle %}F A Q {% endblock %}
+{# lewe menu #}
 {% block sidebaritems %}
     <li class="active"><a href="{{ path('ZubiFaqBundle_homepage') }}">Faq</a></li>
     <li><a href="{{ path('ZubiIndexBundle_homepage') }}">Strona główna serwisu</a></li>
 {% endblock %}
-
+{# terść strony #}
 {% block body %}
-
+{# pole na komuniaty o sukcesie lub błędach #}
 {% if app.session.hasFlash('notice') %}
     <div class="alert alert-success">
         {{ app.session.flash('notice') }}
@@ -21,7 +24,10 @@
 <br />
 <div class="well">    
    <ul class="unstyled">
+    {# pętla "przechodząca przez wszystkie FAQ przekazane przez kontroler #}
     {% for faq in faqs %}            
+        {# ustawienie falgi widoczności w zależności od zalogowanego usera 
+           oraz od statusu widoczności z FAQ #}
         {% set visible = false %}
         {% if faq.id_statusu == 3 %}
             {% if is_granted('ROLE_ADMIN') %}
@@ -34,8 +40,8 @@
         {% else %}
             {% set visible = true %}
         {% endif %}
-        {% if visible == true %}            
-        
+        {# jeśli falga widoczonści jest ustawiona na TRUE, to wyświetlamy FAQ #}
+        {% if visible == true %}                    
             <li><p><i>Pytanie:</i> {{ faq.tresc }}</p>
             <blockquote>{{faq.odpowiedz}}</blockquote>            
             {% if is_granted('ROLE_ADMIN') %}
@@ -49,6 +55,7 @@
     {% endfor %}
    </ul>
 </div>
+{# jeśli zalogowany admin, na stronie mamy dostepny formularz do dodawania FAQ #}
 {% if is_granted('ROLE_ADMIN') %}            
 <div class="well">    
     <form class="form-horizontal" action="{{  path('ZubiFaqBundle_homepage')  }}" method="POST" {{ form_enctype(form) }}>

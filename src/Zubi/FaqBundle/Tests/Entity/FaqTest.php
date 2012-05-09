@@ -3,12 +3,17 @@
 namespace Zubi\FaqBundle\Tests\Entity;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-
 use Symfony\Component\Validator\ValidatorFactory;
-
 use Zubi\FaqBundle\Entity\Faq;
 
 
+/* 
+ * Klasa sprawdzająca poprawność stworzonej klasy mapującej 
+ * tabelkę bazy danych.
+ * 
+ * Sprawdza porpawność metod GET i SET poszczególnych pól tabelki
+ * 
+ */
 class FaqTest extends WebTestCase {
 
     
