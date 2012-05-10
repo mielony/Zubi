@@ -1,11 +1,22 @@
 {# podpięcie się pod bazowy szablon strony #}
 {% extends  '::base.html.twig' %}
 {# zmiana sidebartitle #}
-{% block sidebartitle %}F A Q {% endblock %}
+{% block sidebartitle %}MENU{% endblock %}
 {# lewe menu #}
 {% block sidebaritems %}
-    <li class="active"><a href="{{ path('ZubiFaqBundle_homepage') }}">Faq</a></li>
-    <li><a href="{{ path('ZubiIndexBundle_homepage') }}">Strona główna serwisu</a></li>
+    <li><a href="{{ path('ZubiIndexBundle_homepage') }}"><i class="icon-home"></i> Home</a></li>
+    <li><a href="{{ path('ZubiUserBundle_homepage') }}"><i class="icon-user"></i> Profil</a></li>
+    {% if is_granted('ROLE_USER') %}
+        <li><a href="{{ path('ZubiDeviceBundle_homepage') }}"><i class="icon-cog"></i> Urządzenia</a></li>
+    {% endif %}    
+    <li class="active"><a href="{{ path('ZubiFaqBundle_homepage') }}"><i class="icon-question-sign"></i> FAQ </a></li>        
+    <li><a href="{{ path('ZubiArticleBundle_homepage') }}"><i class="icon-book"></i> Artykuły</a></li> 
+    {% if is_granted('ROLE_USER') %}
+        <li><a href="{{ path('ZubiArticleBundle_homepage') }}"><i class="icon-pencil"></i> Dodaj artykuł</a></li>
+        <li><a href="{{ path('ZubiArticleBundle_homepage') }}"><i class="icon-list-alt"></i> Grupy artykułów</a></li>
+        <li><a href="{{ path('ZubiArticleBundle_homepage') }}"><i class="icon-plus"></i> Dodaj grupę</a></li>
+    {% endif %}
+    <li class="divider"></li>
 {% endblock %}
 {# terść strony #}
 {% block body %}
