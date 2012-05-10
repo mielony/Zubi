@@ -12,9 +12,9 @@
     <li class="active"><a href="{{ path('ZubiFaqBundle_homepage') }}"><i class="icon-question-sign"></i> FAQ </a></li>        
     <li><a href="{{ path('ZubiArticleBundle_homepage') }}"><i class="icon-book"></i> Artykuły</a></li> 
     {% if is_granted('ROLE_USER') %}
-        <li><a href="{{ path('ZubiArticleBundle_homepage') }}"><i class="icon-pencil"></i> Dodaj artykuł</a></li>
-        <li><a href="{{ path('ZubiArticleBundle_homepage') }}"><i class="icon-list-alt"></i> Grupy artykułów</a></li>
-        <li><a href="{{ path('ZubiArticleBundle_homepage') }}"><i class="icon-plus"></i> Dodaj grupę</a></li>
+        <li><a href="{{ path('ZubiArticleBundle_add') }}"><i class="icon-pencil"></i> Dodaj artykuł</a></li>
+        <li><a href="{{ path('ZubiArticleBundle_groups') }}"><i class="icon-list-alt"></i> Grupy artykułów</a></li>
+        <li><a href="{{ path('ZubiArticleBundle_group_add') }}"><i class="icon-plus"></i> Dodaj grupę</a></li>
     {% endif %}
     <li class="divider"></li>
 {% endblock %}
